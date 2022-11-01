@@ -137,6 +137,60 @@ const run = async () => {
       })
     }
 
+    // ---------------
+    // repository file
+    // ---------------
+    const finalPath = document.querySelector('.final-path')
+    const parent = finalPath?.parentElement;
+    if (finalPath && parent?.id === 'blob-path'
+      && !parent.querySelector('.open-in-ide-icon')) (() => {
+      const container = parent.parentElement?.parentElement;
+      const permalink = container?.querySelector('a.js-permalink-shortcut');
+      const href = permalink?.getAttribute('href')
+      console.log(href);
+      if (!href || !filePathRegExp.test(href)) return;
+
+      const pathInfo = filePathRegExp.exec(href)
+      const repo = pathInfo?.[1]
+      const file = pathInfo?.[3]
+      if (!repo || !file) return
+
+      const editorIconElement = generateIconElement(repo, file)
+      editorIconElement.style.display = 'inline';
+      editorIconElement.style.padding = '0 10px';
+
+      finalPath.after(editorIconElement)
+      addedIconsCounter++
+    })()
+
+    // Inline code fragment in comment
+    const fragmentLinks = document.querySelectorAll('.comment-body .Box-header a');
+    [...fragmentLinks].forEach(anode => {
+      const href = anode.getAttribute('href');
+      if (!href || !filePathRegExp.test(href)
+        || anode.parentElement?.querySelector('.open-in-ide-icon')) return;
+
+      const pathInfo = filePathRegExp.exec(href)
+      const repo = pathInfo?.[1]
+      let file = pathInfo?.[3]
+      if (!repo || !file) return
+
+      let line = "1";
+      if (/#L\d+/.test(file)) {
+        const matches = file.match(/#L(\d+)/)
+        if (matches && matches[1]) {
+          line = matches[1]
+        }
+        file = file.split('#')[0];
+      }
+      const editorIconElement = generateIconElement(repo, file, line)
+      editorIconElement.style.display = 'inline';
+      editorIconElement.style.padding = '0 10px';
+
+      anode.after(editorIconElement)
+      addedIconsCounter++
+    })
+
     // --------------------------------------------
     // file links (files changed view & discussions)
     // --------------------------------------------
