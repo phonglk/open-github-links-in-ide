@@ -70,9 +70,12 @@ const run = async () => {
       return url
     },
     "jetbrains-webserver": (repo: string, file: string, line?: string) => {
-      const url = `http://localhost:63342/api/file?file=${OPTIONS.localPathForRepositories}/${repo}/${file}&line=${
+      let url = `http://localhost:63342/api/file?file=${OPTIONS.localPathForRepositories}/${repo}/${file}&line=${
         line ?? "1"
       }`
+      if (OPTIONS.relativeFile) {
+        url = `http://localhost:63342/api/file/${file}:${ line ?? "1" }`
+      }
       fetch(url).catch(() => alert(`Unable to open the file.\nIs the built-in web server started on localhost:63342 ?`))
       return url
     },

@@ -69,6 +69,7 @@ export type ChromeStorage = {
   showIconOnFileBlockHeaders: boolean
   showIconOnLineNumbers: boolean
   showDebugMessages: boolean
+  relativeFile: boolean
 }
 
 export const defaultChromeStorageOptions: ChromeStorage = {
@@ -78,4 +79,5 @@ export const defaultChromeStorageOptions: ChromeStorage = {
   showIconOnFileBlockHeaders: true,
   showIconOnLineNumbers: true,
   showDebugMessages: false,
+  relativeFile: false,
 }

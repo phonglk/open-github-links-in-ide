@@ -1,3 +1,6 @@
+# What new in this fork ?
+- Add option to open the file relatively using jetbrains webserver. It is useful if your repos are lying around and you are opening the project.
+
 # Browser extension to open GitHub file links in your IDE
 
 [![CircleCI](https://circleci.com/gh/lmichelin/open-github-links-in-ide.svg?style=svg)](https://circleci.com/gh/lmichelin/open-github-links-in-ide)

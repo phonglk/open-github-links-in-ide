@@ -7,17 +7,20 @@ const run = async () => {
 
   const localPathInputElement = document.getElementById("localPathForRepositories") as HTMLInputElement
   const defaultIdeSelectElement = document.getElementById("defaultIde") as HTMLSelectElement
+  const relativeFileOption = document.getElementById('relativeFileOption') as HTMLInputElement
 
   const checkboxes = [
     "showIconInFileTree",
     "showIconOnFileBlockHeaders",
     "showIconOnLineNumbers",
     "showDebugMessages",
+    "relativeFile",
   ] as const
 
   // set localPathForRepositories and defaultIde values
   localPathInputElement.value = OPTIONS.localPathForRepositories
   defaultIdeSelectElement.value = OPTIONS.defaultIde
+  relativeFileOption.style.display = OPTIONS.defaultIde === 'jetbrains-webserver' ? 'block' : 'none';
 
   // add EventListener for localPathForRepositories
   localPathInputElement.addEventListener("input", event => {
@@ -31,6 +34,7 @@ const run = async () => {
     const defaultIde = (event.target as HTMLSelectElement).value as Editor
     void chrome.storage.sync.set({ defaultIde })
     setExtensionIcon(defaultIde)
+    relativeFileOption.style.display = defaultIde === 'jetbrains-webserver' ? 'block' : 'none';
   })
 
   checkboxes.forEach(checkbox => {
